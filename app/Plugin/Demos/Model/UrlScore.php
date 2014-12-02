@@ -11,8 +11,6 @@ class UrlScore extends AppModel {
 	];
 
 	public function beforeSave($options = []) {
-
-
 		$media = $this->Media->find('first', [
 			'conditions' => [
 				'asset_file' => $this->data[$this->alias]['asset_file']

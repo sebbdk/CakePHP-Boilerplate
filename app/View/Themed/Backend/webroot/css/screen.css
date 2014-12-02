@@ -8100,12 +8100,12 @@ button[type=button] {
   margin: 0;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
   /* line 89, ../sass/_elements.scss */
   td.actions {
     position: relative;
     height: 47px;
-    padding-left: 20px !important;
+    padding-left: 20px;
   }
   /* line 94, ../sass/_elements.scss */
   td.actions .ellipse {

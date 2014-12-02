@@ -3,7 +3,7 @@
 * @Author: sebb
 * @Date:   2014-06-17 00:09:12
 * @Last Modified by:   sebb
-* @Last Modified time: 2014-07-14 15:12:10
+* @Last Modified time: 2014-10-13 22:55:00
 */
 
 Configure::write('menu.media_index', array(
@@ -32,6 +32,16 @@ Configure::write('menu.urlscores', array(
 		'plugin' => 'demos',
 		'controller' => 'UrlScores',
 		'action' => 'index'
+	),
+	'sort' => 200
+));
+
+Configure::write('menu.better', array(
+	'name' => 'Rate media',
+	'url' => array(
+		'plugin' => 'demos',
+		'controller' => 'media_ratings',
+		'action' => 'add'
 	),
 	'sort' => 200
 ));

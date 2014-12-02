@@ -4,7 +4,7 @@ App::uses('AppController', 'Controller');
 class MediaController extends AppController {
 
 	public $paginate = [
-		'limit' => 20,
+		'limit' => 40,
 		'order' => 'Media.created desc',
 		'conditions' => [
 			'gallery_id' => ''
@@ -17,6 +17,12 @@ class MediaController extends AppController {
 	}
 
 	public function index() {
+		if(isset($this->request->params['named']['favorites'])) {
+			$this->paginate['conditions']['Media.is_favorite >='] = $this->request->params['named']['favorites'];
+			unset($this->paginate['conditions']['gallery_id']);
+			$this->paginate['order'] = 'Media.score desc';
+		}
+
 		if( isset($this->request->params['named']['sort']) ) {
 			$sort = $this->request->params['named']['sort'];
 			switch($sort) {
@@ -35,7 +41,40 @@ class MediaController extends AppController {
 		$this->Crud->execute('index');
 	}
 
-	public function fix() {
+
+
+	public function fixTime() {
+		$files = $this->Media->find('all', [
+			'limit' => 1000,
+			'conditions' => [
+				'NOT' => [
+					'modified LIKE' => "%2014-%"
+				]
+			]
+		]);
+		foreach($files as $index => $media) {
+			$s = explode(' ', $media['Media']['modified']);
+			$d = explode('-',  $s[0]);
+			$y = substr($d[0], -2);
+
+			if($y != "14") {
+				$d = "2014-" . $d[1] . "-" . $y;
+
+				$files[$index]['Media']['created'] = $d . " " . $s[1];
+
+				$files[$index]['Media']['modified'] = $files[$index]['Media']['created'];
+
+				debug( $this->Media->save($files[$index]['Media']) );
+			}
+		}
+
+		//debug($files);
+		//$this->Media->saveAll($files);
+
+		die();
+	}
+
+	public function fixDouples() {
 		$Files = $this->File->find('all');
 		foreach($files as $File) {
 			$doupes = $this->File->find('all', [

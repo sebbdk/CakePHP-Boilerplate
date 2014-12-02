@@ -57,7 +57,7 @@
 <body>
 	<?= $this->element('menu'); ?>
 
-	<div class="container load">	
+	<div class="load">	
 		<?= $this->Session->flash(); ?>
 
 		<?= $this->fetch('content'); ?>		
@@ -68,6 +68,10 @@
     		Cakebox was made by sebb.dk
     	</div>
 		<?php //echo $this->element('sql_dump'); ?>
+		<script>
+			window.DATA = {};
+			window.DATA.baseURL = "<?php echo Router::url('/');  ?>";
+		</script>
 	</div>	
 </body>
 </html>

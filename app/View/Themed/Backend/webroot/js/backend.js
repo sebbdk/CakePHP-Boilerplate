@@ -4,6 +4,49 @@
 		$(this).toggleClass('active');
 	});
 
+	$(document).on('click', '.toggle-fav', function(evt) {
+		var id = $(this).attr('data-id');
+		var currentScore = $(this).parent().find('.active').size();
+		var value = currentScore == $(this).attr('data-value') ? 0:$(this).attr('data-value');
+		var data = {
+			Media:{
+				id:id,
+				is_favorite:value
+			}
+		};
+
+		$(this).parent().find('.toggle-fav').removeClass('active')
+		$(this).parent().find('.toggle-fav').each(function() {
+			if($(this).attr('data-value') <= value) {
+				$(this).addClass('active');
+			}
+		});
+
+		$.post(DATA.baseURL + 'demos/media/add/' + id + '.json', data, function() {});
+	});
+
+	$(document).on('click', '.toggle-g-fav', function(evt) {
+		var id = $(this).attr('data-id');
+		var currentScore = $(this).parent().find('.active').size();
+		console.log(currentScore);
+		var value = currentScore == $(this).attr('data-value') ? 0:$(this).attr('data-value');
+		var data = {
+			Gallery:{
+				id:id,
+				is_favorite:value
+			}
+		};
+
+		$(this).parent().find('.toggle-g-fav').removeClass('active')
+		$(this).parent().find('.toggle-g-fav').each(function() {
+			if($(this).attr('data-value') <= value) {
+				$(this).addClass('active');
+			}
+		});
+
+		$.post(DATA.baseURL + 'demos/galleries/edit/' + id + '.json', data, function() {});
+	});
+
 	$(document).ready(function() {
 		adjustToFit();
 		prepareFancyBox();
